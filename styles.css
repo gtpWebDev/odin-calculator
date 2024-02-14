@@ -16,5 +16,70 @@
 }
 
 body {
-  background-color: backGroundColour;
+  background-color: var(--backGroundColour);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--darkTextColour);
+  text-align: center;
+}
+
+h1.reducedMargins {
+  margin: 15px 0;
+}
+
+.titleBar {
+  text-align:center;
+}
+
+.titleBar {
+  background-color: var(--midDarkColour);
+  color: var(--lightTextColour);
+  padding: 5px;
+  margin: 10px auto 60px auto;
+  width: 80vw;
+  font-size: 22px;
+}
+
+.calculatorContainer {
+  margin: 10px auto;
+  width: 500px; /* likely delete */
+  border: 2px solid var(--borderColour);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 30px;
+  background-color: var(--midLightColour);
+}
+
+.logo, .screenContainer, .buttonsContainer {
+  margin: 0 0px;
+  border-radius: 15px;
+}
+
+.logo {
+  background-color: var(--midLightColour);
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.screenContainer {
+  background-color: var(--lightestColour);
+  border: 5px double var(--borderColour);
+
+  margin-bottom: 90px;
+  padding: 15px;
+}
+
+.screen {
+  height: 60px;
+  border: 1px solid var(--borderColour);
+  background-color: var(--backGroundColour);
+}
+
+.buttonsContainer {
+  background-color: var(--lightestColour);
+  border: 2px solid var(--borderColour);
+  height: 500px; /* likely delete */
+
 }
