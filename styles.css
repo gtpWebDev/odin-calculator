@@ -1,0 +1,20 @@
+
+:root {
+
+  --backGroundColour: #FFFFFF; /* exclusive to backgrounds */
+  --borderColour: #000000; /* exclusive to borders */
+
+  --lightTextColour: #f8f1e4; /* for use on dark backgrounds */
+  --darkTextColour: #1f0000; /* for use on light backgrounds */
+
+  --lightestColour: #FDF0D5;
+  --midLightColour: #669bbc;
+  --midColour: #c1121f;
+  --midDarkColour: #780000;
+  --darkestColour: #003049;
+  
+}
+
+body {
+  background-color: backGroundColour;
+}
