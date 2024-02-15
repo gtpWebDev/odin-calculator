@@ -1,19 +1,115 @@
 
 
+/*
+
+3 elements:
+
+All "numbers" to be dealt with as strings until operator applied
+
+1. storedNum -  a number previously calculated using an operator,
+2. newString - the number input as a string, currently being added to the display
+3. operator -   operator to apply on press to the storedNum and newString
+2. displayString - a separate variable to handle precisely what should be displayed
+                as per the nuances of an olde worle calculator
+
+Note, as long as storedNum and newString are carefully controlled on operators,
+pressing numbers will always simply add to newString
+
+Scenario:
+Press 1 - append to newString = 1; displayString = newString
+Press 2 - append to newString = 12; displayString = newString
+Press 3 - append to newString = 123; displayString = newString
+
+Press "+"" - storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum (simplicity)
+
+Press 4 - append to newString = "4"; displayString = newString
+Press 5 - append to newString = "45"; displayString = newString
+Press 6 - append to newString = "456"; displayString = newString
+
+Press "*" - storedNum defined: storedNum = storedNum*newString; newString=""; displayString = storedNum
+
+Concnlude on number press:
+  - append number to newString and update displayString to newString
+
+  Conclude on operator press:
+  - if storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum
+  - if storedNum defined: storedNum = storedNum op newString; newString = ""; displayString = storedNum
+
+
+*/
+
+let calculatorData = {
+  storedNum: null,
+  operator: null,
+  newString: "",
+  displayString: ""
+}
 
 
 
-let firstNumber = 3
-let operator = "+"
-let secondNumber = 5
+testScenario()
 
-printOperationInConsole(3,"+",5)
-printOperationInConsole(3,"-",4)
+function testScenario() {
+
+  let testArray = [
+    {type: "number", keyPress: "1"},
+    {type: "number", keyPress: "2"},
+    {type: "operator", keyPress: "+"},
+    {type: "number", keyPress: "3"},
+    {type: "number", keyPress: "4"},
+    {type: "operator", keyPress: "*"},
+    {type: "number", keyPress: "1"},
+    {type: "number", keyPress: "5"},
+    {type: "operator", keyPress: "-"},
+  ]
+
+  testArray.forEach( (element) => {
+    if (element.type === "number") {
+      calculatorData = onNumberPress(element.keyPress,calculatorData)
+    } else if (element.type === "operator") {
+      calculatorData = onOperatorPress(element.keyPress,calculatorData)
+    }
+    console.table(calculatorData)
+  })
+
+}
 
 
-function printOperationInConsole(firstNumber,operator,secondNumber) {
-  let quickCalc = operate(firstNumber,operator,secondNumber)
-  console.log(`${firstNumber} ${operator} ${secondNumber} = ${quickCalc}`)
+
+function onNumberPress(keyPress,calculatorData) {
+
+  // Append number to newString and update displayString to newString
+  calculatorData.newString += keyPress
+  calculatorData.displayString = calculatorData.newString
+  return calculatorData
+
+}
+
+function onOperatorPress(keyPress,calculatorData) {
+
+  /* 
+    If storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum
+    If storedNum defined: storedNum = storedNum op newString; newString = ""; displayString = storedNum
+  */
+
+  let newNumber = parseFloat(calculatorData.newString)
+
+  if (calculatorData.storedNum === null) {
+    calculatorData.storedNum = newNumber;
+    
+  } else {
+    calculatorData.storedNum = operate(calculatorData.storedNum,keyPress,newNumber)
+  }
+  calculatorData.newString = ""
+  calculatorData.displayString = calculatorData.storedNum.toString()
+  return calculatorData
+
+}
+
+
+function printOperationInConsole(num1,operator,num2) {
+  let quickCalc = operate(num1,operator,num2)
+  console.log(`${num1} ${operator} ${num2} = ${quickCalc}`)
   
 }
 
@@ -33,8 +129,6 @@ function operate(num1,operator,num2) {
   }
 
 }
-
-
 
 // calculator functions
 
