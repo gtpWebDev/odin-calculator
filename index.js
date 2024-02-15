@@ -1,5 +1,3 @@
-
-
 /*
 
 3 elements:
@@ -35,8 +33,33 @@ Concnlude on number press:
   - if storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum
   - if storedNum defined: storedNum = storedNum op newString; newString = ""; displayString = storedNum
 
-
 */
+
+// create a 5(width) x 4(height) grid of dumb buttons, to be assigned later
+
+/*
+let buttonContainer = document.querySelector(".buttonsContainer")
+
+for (let i=0; i<4; i++) {
+
+  let buttonRow = document.createElement("div")
+  buttonRow.setAttribute("class","buttonRow")
+  buttonContainer.appendChild(buttonRow)
+
+  for (let j=0; j<5; j++) {
+    let dumbButton = document.createElement("div")
+    dumbButton.setAttribute("class","dumbButton")
+    buttonRow.appendChild(dumbButton)
+  }
+}
+*/
+
+
+
+
+
+
+
 
 let calculatorData = {
   storedNum: null,
@@ -107,12 +130,6 @@ function onOperatorPress(keyPress,calculatorData) {
 }
 
 
-function printOperationInConsole(num1,operator,num2) {
-  let quickCalc = operate(num1,operator,num2)
-  console.log(`${num1} ${operator} ${num2} = ${quickCalc}`)
-  
-}
-
 function operate(num1,operator,num2) {
 
   switch (operator) {
@@ -130,7 +147,7 @@ function operate(num1,operator,num2) {
 
 }
 
-// calculator functions
+// individual calculator functions
 
 function add(num1,num2) {
   return num1 + num2

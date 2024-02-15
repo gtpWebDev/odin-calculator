@@ -40,8 +40,8 @@ h1.reducedMargins {
 }
 
 .calculatorContainer {
-  margin: 10px auto;
-  width: 500px; /* likely delete */
+  width: fit-content;
+  margin: 0 auto;
   border: 2px solid var(--borderColour);
   border-radius: 25px;
   display: flex;
@@ -53,7 +53,6 @@ h1.reducedMargins {
 }
 
 .logo, .screenContainer, .buttonsContainer {
-  margin: 0 0px;
   border-radius: 15px;
 }
 
@@ -81,6 +80,69 @@ h1.reducedMargins {
 .buttonsContainer {
   background-color: var(--lightestColour);
   border: 2px solid var(--borderColour);
-  height: 500px; /* likely delete */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 
 }
+
+.leftButtonContainer {
+  background-color: var(--lightestColour);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.rightButtonContainer {
+  background-color: var(--lightestColour);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.buttonRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 
+}
+
+.allButtons {
+  width: 80px;
+  height: 80px;
+  background-color: var(--darkestColour);
+  border: 2px solid var(--borderColour);
+  color: var(--lightTextColour);
+  border-radius: 4px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+  font-weight: 800;
+}
+
+.numberButtons {
+  background-color: var(--midDarkColour);
+}
+
+.operatorButtons {
+  background-color: var(--darkestColour);
+}
+
+#clearButton, #equalsButton {
+  height: 184px;
+  background-color: var(--midColour);
+}
+
+#clearButton {
+  font-size: 45px;
+}
+
