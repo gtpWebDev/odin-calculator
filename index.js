@@ -3,12 +3,13 @@
 // Initialisation
 
 const maxDigitsInDisplay = 9
+const decimalAccuracy = 8
 
 let calculatorData
 initialiseCalculatorData()
 updateDisplay()
 
-// Add button functionality in DOM for numbers 1 to 10
+// Add button functionality in the DOM
 
 for (let i=0; i<=9; i++) {
   let strI = i.toString()
@@ -54,6 +55,13 @@ equalButton.addEventListener("click", () => {
   updateDisplay()
 })
 
+let decimalButton = document.querySelector("#decimalButton")
+decimalButton.addEventListener("click", () => {
+  onDecimalPress()
+  updateDisplay()
+})
+
+
 
 function initialiseCalculatorData() {
   calculatorData = {
@@ -76,11 +84,10 @@ function updateDisplay() { // note actual calculations retain decimals, display 
 
 function onNumberPress(keyPress) {
 
-  // Leading zeroes and attempted 10th digits are ignored
-  // Otherwise, simply append to the display number
+  console.log("Register num press")
 
   if ((keyPress ==="0" && calculatorData.displayString === "0") ||
-      calculatorData.displayString.length >= maxDigitsInDisplay
+      calculatorData.newString.length >= maxDigitsInDisplay
   ) {
     // leading zero and attempted 10th digit ignored
   } else {
@@ -90,32 +97,21 @@ function onNumberPress(keyPress) {
 
 }
 
+function onDecimalPress() {
+
+  if (calculatorData.newString.indexOf(".") >= 0 || calculatorData.displayString.length >= maxDigitsInDisplay) {
+    // decimal already used or attempted after 9th digit - ignored
+  } else {
+      calculatorData.newString === "" ? calculatorData.newString += "0." : calculatorData.newString += "."
+      calculatorData.displayString = calculatorData.newString
+  }
+
+}
+
 
 function onOperatorPress(keyPress) {
 
-  /* 3 possibilities:
-    No new number input yet (newString = ""):
-      - update operator only
-
-    First operation (operator = "" but newString != ""):
-      - move newString to storedNum
-      - update operator
-      - reset newString to ""
-      - update the newString to the new storedNum
-    Additional operations (operator != "" and newString != ""):
-      - calculate storedNum/operator/newString and store it as the new storedNum
-      - update operator
-      - reset newString to ""
-      - update the newString to the new storedNum
-  */
-
-  
-
-
-
   let newNumber = parseFloat(calculatorData.newString)
-
-  console.table("before",calculatorData)
 
   if (calculatorData.newString === "") { // no new number yet, user changes mind
     calculatorData.activeOperator = keyPress
@@ -135,38 +131,12 @@ function onOperatorPress(keyPress) {
 
   }
 
-
-
-  console.table("after",calculatorData)
-  
-
 }
 
 
 function onEqualsPress() {
 
-  /* 3 possibilities:
-    No new number input yet (newString = ""):
-      - ensure activeOperator is ""
-
-    First operation (operator = "" but newString != ""):
-      - move newString to storedNum
-      - reset newString to ""
-
-      Additional operations (operator != "" and newString != ""):
-      - calculate storedNum/operator/newString and store it as the new storedNum
-      - ensure activeOperator is ""
-      - reset newString to ""
-      - update the newString to the new storedNum
-  */
-
-  
-
-
-
   let newNumber = parseFloat(calculatorData.newString)
-
-  console.table("before",calculatorData)
 
   if (calculatorData.newString === "") { // no new number yet, user changes mind
     
@@ -181,19 +151,13 @@ function onEqualsPress() {
       calculatorData.storedNum = operate(calculatorData.storedNum,calculatorData.activeOperator,newNumber)
       
     }
-    
-    
+        
     calculatorData.newString = ""
     calculatorData.displayString = calculatorData.storedNum.toString()
 
   }
 
   calculatorData.activeOperator = ""
-
-
-
-  console.table("after",calculatorData)
-  
 
 }
 
@@ -209,6 +173,7 @@ function onClearPress() {
 
 function operate(num1,operator,num2) {
 
+  let calcOutput
   switch (operator) {
     case "+":
       return add(num1,num2);
