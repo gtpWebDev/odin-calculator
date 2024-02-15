@@ -86,7 +86,7 @@ h1.reducedMargins {
   display: flex;
   justify-content: right;
   align-items: center;
-  font-size: 70px;
+  font-size: 60px;
   padding: 0 30px;
 flex: 1;
 }
@@ -129,8 +129,8 @@ flex: 1;
 }
 
 .allButtons {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background-color: var(--darkestColour);
   border: 2px solid var(--borderColour);
   color: var(--lightTextColour);
@@ -139,14 +139,14 @@ flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 70px;
+  font-size: 60px;
   font-weight: 800;
   cursor: pointer;
 }
 
 .zeroButton {
-  width: 184px;
-  height: 80px;
+  width: 144px;
+  height: 60px;
 }
 
 .numberButtons, .zeroButton {
@@ -158,11 +158,11 @@ flex: 1;
 }
 
 #clearButton, #equalButton {
-  height: 184px;
+  height: 144px;
   background-color: var(--midColour);
 }
 
 #clearButton {
-  font-size: 45px;
+  font-size: 35px;
 }
 

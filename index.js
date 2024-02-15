@@ -84,8 +84,6 @@ function updateDisplay() { // note actual calculations retain decimals, display 
 
 function onNumberPress(keyPress) {
 
-  console.log("Register num press")
-
   if ((keyPress ==="0" && calculatorData.displayString === "0") ||
       calculatorData.newString.length >= maxDigitsInDisplay
   ) {
