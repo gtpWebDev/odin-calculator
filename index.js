@@ -1,134 +1,211 @@
-/*
 
-3 elements:
 
-All "numbers" to be dealt with as strings until operator applied
+// Initialisation
 
-1. storedNum -  a number previously calculated using an operator,
-2. newString - the number input as a string, currently being added to the display
-3. operator -   operator to apply on press to the storedNum and newString
-2. displayString - a separate variable to handle precisely what should be displayed
-                as per the nuances of an olde worle calculator
+const maxDigitsInDisplay = 9
 
-Note, as long as storedNum and newString are carefully controlled on operators,
-pressing numbers will always simply add to newString
+let calculatorData
+initialiseCalculatorData()
+updateDisplay()
 
-Scenario:
-Press 1 - append to newString = 1; displayString = newString
-Press 2 - append to newString = 12; displayString = newString
-Press 3 - append to newString = 123; displayString = newString
+// Add button functionality in DOM for numbers 1 to 10
 
-Press "+"" - storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum (simplicity)
+for (let i=0; i<=9; i++) {
+  let strI = i.toString()
+  buttonId = `#number${strI}Button`
+  let numberButton = document.querySelector(buttonId)
+  numberButton.addEventListener("click", () => {
+    onNumberPress(strI);
+    updateDisplay()
+  })
+}
 
-Press 4 - append to newString = "4"; displayString = newString
-Press 5 - append to newString = "45"; displayString = newString
-Press 6 - append to newString = "456"; displayString = newString
+let clearButton = document.querySelector("#clearButton")
+clearButton.addEventListener("click", onClearPress )
 
-Press "*" - storedNum defined: storedNum = storedNum*newString; newString=""; displayString = storedNum
+let subtractButton = document.querySelector("#subtractButton")
+subtractButton.addEventListener("click", () => {
+  onOperatorPress("-")
+  updateDisplay()
+})
 
-Concnlude on number press:
-  - append number to newString and update displayString to newString
+let addButton = document.querySelector("#addButton")
+addButton.addEventListener("click", () => {
+  onOperatorPress("+")
+  updateDisplay()
+})
 
-  Conclude on operator press:
-  - if storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum
-  - if storedNum defined: storedNum = storedNum op newString; newString = ""; displayString = storedNum
+let divideButton = document.querySelector("#divideButton")
+divideButton.addEventListener("click", () => {
+  onOperatorPress("/")
+  updateDisplay()
+})
 
-*/
+let multiplyButton = document.querySelector("#multiplyButton")
+multiplyButton.addEventListener("click", () => {
+  onOperatorPress("*")
+  updateDisplay()
+})
 
-// create a 5(width) x 4(height) grid of dumb buttons, to be assigned later
 
-/*
-let buttonContainer = document.querySelector(".buttonsContainer")
+let equalButton = document.querySelector("#equalButton")
+equalButton.addEventListener("click", () => {
+  onEqualsPress()
+  updateDisplay()
+})
 
-for (let i=0; i<4; i++) {
 
-  let buttonRow = document.createElement("div")
-  buttonRow.setAttribute("class","buttonRow")
-  buttonContainer.appendChild(buttonRow)
-
-  for (let j=0; j<5; j++) {
-    let dumbButton = document.createElement("div")
-    dumbButton.setAttribute("class","dumbButton")
-    buttonRow.appendChild(dumbButton)
+function initialiseCalculatorData() {
+  calculatorData = {
+    storedNum: "0",
+    activeOperator: "",
+    newString: "",
+    displayString: "0"
   }
 }
-*/
 
-
-
-
-
-
-
-
-let calculatorData = {
-  storedNum: null,
-  operator: null,
-  newString: "",
-  displayString: ""
-}
-
-
-
-testScenario()
-
-function testScenario() {
-
-  let testArray = [
-    {type: "number", keyPress: "1"},
-    {type: "number", keyPress: "2"},
-    {type: "operator", keyPress: "+"},
-    {type: "number", keyPress: "3"},
-    {type: "number", keyPress: "4"},
-    {type: "operator", keyPress: "*"},
-    {type: "number", keyPress: "1"},
-    {type: "number", keyPress: "5"},
-    {type: "operator", keyPress: "-"},
-  ]
-
-  testArray.forEach( (element) => {
-    if (element.type === "number") {
-      calculatorData = onNumberPress(element.keyPress,calculatorData)
-    } else if (element.type === "operator") {
-      calculatorData = onOperatorPress(element.keyPress,calculatorData)
-    }
-    console.table(calculatorData)
-  })
+function updateDisplay() { // note actual calculations retain decimals, display limited to 9 digits
+  let screenDisplay = document.querySelector("#screen")
+  screenDisplay.textContent = calculatorData.displayString.slice(0,maxDigitsInDisplay)
+  let activeOperatorDisplay = document.querySelector("#activeOperator")
+  activeOperatorDisplay.textContent = calculatorData.activeOperator
 
 }
 
 
 
-function onNumberPress(keyPress,calculatorData) {
+function onNumberPress(keyPress) {
 
-  // Append number to newString and update displayString to newString
-  calculatorData.newString += keyPress
-  calculatorData.displayString = calculatorData.newString
-  return calculatorData
+  // Leading zeroes and attempted 10th digits are ignored
+  // Otherwise, simply append to the display number
+
+  if ((keyPress ==="0" && calculatorData.displayString === "0") ||
+      calculatorData.displayString.length >= maxDigitsInDisplay
+  ) {
+    // leading zero and attempted 10th digit ignored
+  } else {
+    calculatorData.newString += keyPress
+    calculatorData.displayString = calculatorData.newString
+  }
 
 }
 
-function onOperatorPress(keyPress,calculatorData) {
 
-  /* 
-    If storedNum undefined: storedNum = newString; newString = ""; displayString = storedNum
-    If storedNum defined: storedNum = storedNum op newString; newString = ""; displayString = storedNum
+function onOperatorPress(keyPress) {
+
+  /* 3 possibilities:
+    No new number input yet (newString = ""):
+      - update operator only
+
+    First operation (operator = "" but newString != ""):
+      - move newString to storedNum
+      - update operator
+      - reset newString to ""
+      - update the newString to the new storedNum
+    Additional operations (operator != "" and newString != ""):
+      - calculate storedNum/operator/newString and store it as the new storedNum
+      - update operator
+      - reset newString to ""
+      - update the newString to the new storedNum
   */
+
+  
+
+
 
   let newNumber = parseFloat(calculatorData.newString)
 
-  if (calculatorData.storedNum === null) {
-    calculatorData.storedNum = newNumber;
-    
+  console.table("before",calculatorData)
+
+  if (calculatorData.newString === "") { // no new number yet, user changes mind
+    calculatorData.activeOperator = keyPress
+
   } else {
-    calculatorData.storedNum = operate(calculatorData.storedNum,keyPress,newNumber)
+
+    if (calculatorData.activeOperator === "") { // first operation
+      calculatorData.storedNum = newNumber;
+
+    } else { // second operation
+      calculatorData.storedNum = operate(calculatorData.storedNum,calculatorData.activeOperator,newNumber)
+    }
+
+    calculatorData.activeOperator = keyPress
+    calculatorData.newString = ""
+    calculatorData.displayString = calculatorData.storedNum.toString()
+
   }
-  calculatorData.newString = ""
-  calculatorData.displayString = calculatorData.storedNum.toString()
-  return calculatorData
+
+
+
+  console.table("after",calculatorData)
+  
 
 }
 
+
+function onEqualsPress() {
+
+  /* 3 possibilities:
+    No new number input yet (newString = ""):
+      - ensure activeOperator is ""
+
+    First operation (operator = "" but newString != ""):
+      - move newString to storedNum
+      - reset newString to ""
+
+      Additional operations (operator != "" and newString != ""):
+      - calculate storedNum/operator/newString and store it as the new storedNum
+      - ensure activeOperator is ""
+      - reset newString to ""
+      - update the newString to the new storedNum
+  */
+
+  
+
+
+
+  let newNumber = parseFloat(calculatorData.newString)
+
+  console.table("before",calculatorData)
+
+  if (calculatorData.newString === "") { // no new number yet, user changes mind
+    
+    // do nothing
+
+  } else {
+
+    if (calculatorData.activeOperator === "") { // first operation
+      calculatorData.storedNum = newNumber;
+
+    } else { // second operation
+      calculatorData.storedNum = operate(calculatorData.storedNum,calculatorData.activeOperator,newNumber)
+      
+    }
+    
+    
+    calculatorData.newString = ""
+    calculatorData.displayString = calculatorData.storedNum.toString()
+
+  }
+
+  calculatorData.activeOperator = ""
+
+
+
+  console.table("after",calculatorData)
+  
+
+}
+
+
+
+function onClearPress() {
+  initialiseCalculatorData()
+  updateDisplay()
+}
+
+
+// Main operate function to be called from each type of operator
 
 function operate(num1,operator,num2) {
 

@@ -52,7 +52,7 @@ h1.reducedMargins {
   background-color: var(--midLightColour);
 }
 
-.logo, .screenContainer, .buttonsContainer {
+.logo, #screenContainer, #screen, #activeOperator, .buttonsContainer {
   border-radius: 15px;
 }
 
@@ -62,20 +62,39 @@ h1.reducedMargins {
   margin-bottom: 10px;
 }
 
-.screenContainer {
-  background-color: var(--lightestColour);
-  border: 5px double var(--borderColour);
 
-  margin-bottom: 90px;
-  padding: 3px;
-}
-
-.screen {
-  height: 60px;
-  border: 1px solid var(--borderColour);
+#screenContainer {
   background-color: rgb(156, 139, 139);
-  border-radius: 8px;
+  border: 5px double var(--borderColour);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
 }
+
+#activeOperator {
+  display: flex;
+  color: var(--midDarkColour);
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  padding: 0 25px;
+  max-width: 50px;
+  flex: 0;
+
+}
+
+#screen {
+  background-color: rgb(156, 139, 139);
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 70px;
+  padding: 0 30px;
+flex: 1;
+}
+
+
 
 .buttonsContainer {
   background-color: var(--lightestColour);
@@ -137,7 +156,7 @@ h1.reducedMargins {
   background-color: var(--darkestColour);
 }
 
-#clearButton, #equalsButton {
+#clearButton, #equalButton {
   height: 184px;
   background-color: var(--midColour);
 }
